@@ -8,9 +8,10 @@
 
     &-header {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
       padding: 0 0 8px;
+      margin: 1.5rem 0;
 
       &-insert {
         a {
@@ -34,12 +35,6 @@
         display: inline-block;
         padding: 8px;
         border: solid 1px;
-
-        // &:hover {
-        //   cursor: pointer;
-        //   color: $primary-color;
-        //   border-color: $primary-color;
-        // }
 
         &-select-page {
           display: inline-block;
@@ -79,13 +74,13 @@
     }
 
     &-container {
-      max-height: 80vh;
-      overflow: auto;
       width: 100%;
 
       &-table {
+        max-height: 80vh;
+        overflow: auto;
         width: 100%;
-
+        display: inline-table;
 
         // background-color: $fourth-color;
         th {
@@ -95,6 +90,10 @@
           background-color: $jungle-mist;
           padding: 8px;
           border: .5px solid rgba($dark-gray, 30%);
+
+          &:hover {
+            cursor: pointer;
+          }
         }
 
         tr {
@@ -176,6 +175,11 @@
       opacity: 1;
     }
   }
+
+  &.biggest {
+    font-size: 1.8rem;
+    transform: translateY(15%);
+  }
 }
 
 .select {
@@ -184,4 +188,38 @@
   height: 32px;
   background: whitesmoke;
   border-radius: 4px;
+}
+
+.pagination {
+  margin: 1rem 0 0;
+
+  &-list {
+    display: block;
+  }
+
+  &-item {
+    display: inline-block;
+    font-size: 1.4rem;
+    border-radius: 4px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $background-color;
+    }
+
+    &.active {
+      font-weight: 800;
+      color: $white-color;
+      background-color: $primary-color;
+      text-shadow: 1px 1px 1px #262626;
+    }
+
+    &-link {
+      text-decoration: none;
+      display: inline-block;
+      padding: 8px 12px;
+      color: inherit;
+    }
+
+  }
 }

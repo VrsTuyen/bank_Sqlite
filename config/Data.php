@@ -1,4 +1,5 @@
 <?php
+global $connect;
 
 class Database
 {
@@ -6,29 +7,36 @@ class Database
   // private $__db_name = 'bank';
   // private $__username = 'root';
   // private $__password = '';
-  private $__connection;
 
   function connect()
   {
-    $this->__connection = null;
+    $connect = null;
     try {
-      $this->__connection = new PDO(
+      $connect = new PDO(
         "sqlite:bank.db",
         "",
         "",
         array(
-          PDO::ATTR_PERSISTENT => true
+            PDO::ATTR_PERSISTENT => true
         )
       );
-      $this->__connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      // $this->__connection->exec('set names utf8');
+      $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      // $connect->exec('set names utf8');
       // echo "Connection Successfully";
-      // echo $this->__connection;
-      return $this->__connection;
+      // echo $connect;
+      return $connect;
     } catch (PDOException $e) {
       echo "<h1>Connection failed " . $e->getMessage() . "</h1>";
-      $this->__connection = null;
+      $connect = null;
       exit;
+    }
+  }
+
+  function disconnect()
+  {
+    global $connect;
+    if ($connect) {
+      $connect = null;
     }
   }
 }
@@ -44,87 +52,20 @@ class Data extends Database
     $this->permissions = $_SESSION['permissions'];
   }
 
-
-  function readData($data)
+  function read($sql)
   {
-    $this->getPermissions();
-    $str = '';
-    $arr = array();
-    $this->_data = $data;
-
+    global $connect;
     $connect = $this->connect();
-    $_SESSION['currentPage'] = $currentPage = 1;
-    $start = 0;
-    $rowPerPage = 15;
-    $total = $this->__totalPages;
-
-    $_SESSION['pages'] = $pages = $total / $rowPerPage;
-
-    if (isset($_GET['page'])) {
-      $_SESSION['currentPage'] = $currentPage = $_GET['page'];
-      $start = ($currentPage - 1) * $rowPerPage;
-    }
-
-    try {
-      // count
-      $statement = $connect->prepare($data);
-      $statement->setFetchMode(PDO::FETCH_ASSOC);
-      $statement->execute();
-      $result = $statement->fetchAll();
-
-      $this->__totalPages = count($result) / $rowPerPage;
-      $_SESSION['total'] = $this->__totalPages;
-
-      $this->Navigation($this->__totalPages);
-
-      $sql = $data . " ASC LIMIT $start, $rowPerPage ; ";
-      $statement = $connect->prepare($sql);
-      $statement->setFetchMode(PDO::FETCH_ASSOC);
-      $statement->execute();
-      $result = $statement->fetchAll();
-      $account_number = 0;
-
-      for ($i = 0; $i <= count($result) - 1; $i++) {
-        $str .= "<tr>";
-        foreach ($result[$i] as $key => $value) {
-          if ($key == 'account_number') {
-            $account_number = $value;
-          }
-
-          if ($key == 'gender') {
-            $gender = $value == 'M' ? 'Male' : 'Female';
-            $str .= " <td>" . $gender . "</td>";
-          } else {
-            $str .= " <td>" . $value . "</td>";
-          }
-        }
-        foreach ($this->permissions as $permission) {
-          if ($permission == 'update') {
-            $str .= "<td><a href = '?page=$currentPage &account_number=$account_number' class = 'link-icon'>
-            <i class='fi fi-sr-eye'></i></a></td> 
-            <td><a href = './handle/delete.php?page=$currentPage&account_number=$account_number' onclick = 'return showMessageDelete(this)' class = 'link-icon'>
-            <i class='red-color fa-solid fa-trash'></i></a></td>";
-            $str .= "</tr>";
-            break;
-          }
-        }
-      }
-      $arr[] = $str;
-      $arr[] = $this->__totalPages;
-
-      return $arr;
-
-    } catch (PDOException $e) {
-      echo "<h1> Error:" . $e->getMessage() . "</h1>";
-    }
+    $statement = $connect->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
-
   function getMax($column, $table, $where = '')
   {
-    $this->__connection = $this->connect();
+    $connect = $this->connect();
 
     $sql = "select max($column) from $table $where";
-    $statement = $this->__connection->prepare($sql);
+    $statement = $connect->prepare($sql);
     $statement->execute();
     // echo $sql;
     return $statement->fetchColumn() + 1;
@@ -132,10 +73,10 @@ class Data extends Database
 
   function getID($column, $table, $where = '')
   {
-    $this->__connection = $this->connect();
+    $connect = $this->connect();
 
     $sql = "select $column from $table $where limit 1";
-    $statement = $this->__connection->prepare($sql);
+    $statement = $connect->prepare($sql);
     $statement->execute();
     return $statement->fetch()[0];
   }
@@ -160,6 +101,17 @@ class Data extends Database
       $_SESSION['start'] = ($currentPage - 1) * $rowPerPage;
     }
     $_SESSION['currentPage'] = $currentPage;
+  }
+
+  function countTotal($table)
+  {
+    global $connect;
+    $this->connect();
+    $sql = "select count(*) as total from $table ";
+    $statement = $connect->prepare($sql);
+    $statement->execute();
+    $total = $statement->fetch()['total'];
+    return $total;
   }
 }
 ?>

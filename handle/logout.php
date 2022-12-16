@@ -1,10 +1,9 @@
 <?php
 session_start();
-// if (isset($_SESSION['account']) || isset($_COOKIE['account'])) {
-unset($_SESSION['account']);
 $_SESSION['account'] = null;
-// setcookie('account', '', time() - 3600, '/');
-// }
+unset($_SESSION['account']);
+$_SESSION['permissions'] = null;
+unset($_SESSION['permissions']);
 header('location: ./../index.php');
 
 ?>

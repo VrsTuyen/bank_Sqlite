@@ -4,9 +4,12 @@
 @import 'components/variable';
 @import 'components/base';
 @import './components/typography';
+@import './components/button';
 
 @import './layout/overlay';
 @import './layout/navigation';
+@import './layout/layout_primary';
 
 @import "./pages/home";
 @import "./pages/user";
+@import "./pages/new-role";

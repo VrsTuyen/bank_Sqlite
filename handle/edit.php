@@ -33,7 +33,6 @@ try {
     state = :state
     WHERE account_number = :account_number";
 
-  $connect->beginTransaction();
   $statement = $connect->prepare($sql);
 
   $statement->bindParam(':balance', $balance);
@@ -49,10 +48,8 @@ try {
   $statement->bindParam(':account_number', $account_number);
 
   $result = $statement->execute();
-  $connect->commit();
   header('location: ./../index.php');
 } catch (PDOException $e) {
-  $connect->rollBack();
   echo "<h1> Error:" . $e->getMessage() . "</h1>";
 
 }

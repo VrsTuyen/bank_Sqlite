@@ -17,7 +17,6 @@ $city = filter_input(INPUT_POST, 'info-city', FILTER_SANITIZE_FULL_SPECIAL_CHARS
 $state = filter_input(INPUT_POST, 'info-state', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 try {
-  $connect->beginTransaction();
   $account_number = $data->getMax('account_number', 'accounts');
 
   $sql = "INSERT INTO `accounts` (`account_number`, `balance`, `first_name`, `last_name`, `age`, `gender`, `address`, `employer`, `email`, `city`, `state`)
@@ -38,11 +37,9 @@ try {
   echo $sql;
 
   $statement->execute();
-  $connect->commit();
   header('location: ./../index.php');
 
 } catch (PDOException $e) {
-  $connect->rollBack();
   echo "<h1> Error:" . $e->getMessage() . "</h1>";
 }
 

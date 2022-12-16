@@ -1,6 +1,7 @@
 <?php
 session_start();
 include './config/Data.php';
+include_once('./function/function.php');
 
 $data = new Data();
 $connect = $data->connect();
@@ -18,24 +19,26 @@ if (empty($_SESSION['account'])) {
 }
 $_SESSION['permissions'] = $permissions;
 
+$limit = 15;
+$page = 1;
+
+if (isset($_GET['page'])) {
+  $page = $_GET['page'];
+  $start = (($page - 1) * $limit);
+} else {
+  $start = 0;
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900;1000&display=swap"
-    rel="stylesheet">
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
-  <link rel="stylesheet" href="./assets/css/style.css">
-
-  <title>Bank Account</title>
+  <?php
+  include_once('./layout/header.html')
+    ?>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <title>Bank Accounts</title>
 </head>
 
 <body>
@@ -45,159 +48,33 @@ $_SESSION['permissions'] = $permissions;
     <?php include_once "./layout/navigation.php"; ?>
     <div class="grid">
       <div class="row">
-        <div class="col-12-xl col-12-lg">
+        <div class="col-12-xl col-12-lg col-12-md col-12-sm col-12-xs">
           <div class="content">
             <div class="content-header">
 
-              <!-- hien thi du lieu -->
-              <?php
-              foreach ($permissions as $permission) {
-                if ($permission == 'view') {
-
-              ?>
-              <div class="content-header-list">
-                <p>Page: <?= isset($_GET['page']) ? $_GET['page'] : '1' ?>
-                </p>
-                <ul class="content-header-list-select-page">
-                </ul>
-              </div>
-              <?php
-                  break;
-                }
-              }
-              foreach ($permissions as $permission) {
-                if ($permission == 'insert') {
-
-              ?>
-
+              <?php if (checkPermission($permissions, 'insert-account')) { ?>
               <div class="content-header-insert">
                 <a href="?addNew">new account</a>
               </div>
-              <?php
-                  break;
-                }
-              }
-              ?>
+              <?php } ?>
+
             </div>
           </div>
+          <?php
+          if (checkPermission($permissions, 'view-account')) {
+          ?>
+
           <div class="content-container">
-            <?php
-            foreach ($permissions as $permission) {
-              if ($permission == 'view') {
-            ?>
-            <table class='content-container-table'>
-              <thead>
-                <th>account number</th>
-                <th>balance</th>
-                <th>full name</th>
-                <th>age</th>
-                <th>gender</th>
-                <th>address</th>
-                <th>employer</th>
-                <th>email</th>
-                <th></th>
-                <th></th>
-              </thead>
-              <tbody class="content-container-table-body">
-                <?php
-                if (isset($_SESSION['account'])) {
-                  $total = 0;
-                  if (empty(isset($_GET['data']))) {
-                    $sql = "SELECT accounts.account_number,
-                          balance,
-                           first_name || ' ' || last_name AS fullName,
-                          age,
-                          gender,
-                          address || ', ' || city ||', ' || state.name AS address,
-                          employer,
-                          email 
-                          FROM `accounts`, `state` 
-                          WHERE accounts.state = state.state
-                          ORDER BY `accounts`.`account_number`";
-
-                    $result = $data->readData($sql);
-
-                    echo ($result[0]);
-                  } else {
-                    include_once './handle/search.php';
-                  }
-                }
-                ?>
-              </tbody>
-            </table>
-            <?php
-                break;
-              } else {
-                try {
-                  $sql = "SELECT accounts.account_number, balance,
-                   first_name|| ' '|| last_name as fullName, age, gender gender,
-                      address|| ', '||city||', '||state.name AS address,
-                      employer, email 
-                      FROM `accounts`, `state`
-                      WHERE accounts.state = state.state AND
-                      account_number ='" . $_SESSION['account'] . "'";
-
-                  $statement = $connect->prepare($sql);
-                  $statement->execute();
-                  $result = $statement->fetch();
-                  $count = count($result);
-                } catch (PDOException $e) {
-                  echo "<h1> Error:" . $e->getMessage() . "</h1>";
-                }
-
-              }
-            }
-            ?>
           </div>
 
-          <!--  phan trang -->
-          <?php
-          foreach ($permissions as $permission) {
-            if ($permission == 'view') {
-
-              $pages = ceil($_SESSION["total"]);
-              $currentPage = $_SESSION["currentPage"];
-          ?>
-          <div class="content-navigation">
-
-            <a href="?page=1" class="content-navigation-button">
-              <i class="fa-solid fa-backward"></i>
-            </a>
-
-            <a href="?page=<?php
-              if (!isset($_GET['page']) || $_GET['page'] <= 1) {
-                $_SESSION['currentPage'] = $currentPage = 1;
-              } else {
-                $_SESSION['currentPage'] = $currentPage = $_GET['page'] - 1;
-              }
-              echo $currentPage;
-            ?>" class="content-navigation-button rotate">
-              <i class="fa-solid fa-play"></i></a>
-
-            <a href="?page=<?php
-              if (!isset($_GET['page'])) {
-                $_SESSION['currentPage'] = $currentPage = 2;
-              } elseif ($_GET['page'] >= $pages) {
-                $_SESSION['currentPage'] = $currentPage = $pages;
-              } else {
-                $_SESSION['currentPage'] = $currentPage = $_GET['page'] + 1;
-              }
-              echo $currentPage;
-            ?>" class="content-navigation-button"><i class="fa-solid fa-play"></i></a>
-
-            <a href="?page=<?php echo ($pages) ?>" class="content-navigation-button rotate"><i
-                class="fa-solid fa-backward"></i></a>
-          </div>
-          <?php
-              break;
-            }
-          }
-          ?>
+          <?php } ?>
         </div>
       </div>
     </div>
   </div>
-  <?php if (isset($_GET['account_number'])) {
+  </div>
+  <?php
+  if (isset($_GET['account_number'])) {
     include_once './handle/info.php';
     echo "<div class='overlay active'>";
   ?>
@@ -333,7 +210,7 @@ $_SESSION['permissions'] = $permissions;
 
       <div class="overlay-info-button-wrap">
         <input type="submit" value="Save" name="<?php echo isset($addNew) ? 'add-submit' : 'edit-submit' ?>"></input>
-        <a href="?page=<?php echo ($_GET['page']) ?>" class="overlay-info-button-wrap-btn">close</a>
+        <a href="index.php" class="overlay-info-button-wrap-btn">close</a>
       </div>
 
     </form>
@@ -397,7 +274,6 @@ $_SESSION['permissions'] = $permissions;
               <input type='radio' name='info-gender' id='info-gender-f' value='F'>
               <label for='info-gender-f'>Female</label>
             </div>
-            ";
           </div>
         </div>
         <div class="overlay-info-content-right">
@@ -476,22 +352,22 @@ $_SESSION['permissions'] = $permissions;
   <script src="./assets/js/validate.js"></script>
 
   <script>
-  document.addEventListener('DOMContentLoaded', functi on() {
+  document.addEventListener('DOMContentLoaded', function() {
     Validator({
       form: '#form',
       formGroupSelector: '.form-group',
       errorSelector: ".validation-message",
       rules: [
         Validator.isRequired('.input-full_name', "Please enter full name"),
-        Vlidator.isRequired('.input-balance', "Please enter balance"),
-        Vlidator.isNumber('.input-balance', "Please enter balance"),
-        lidator.maxLength('.input-balance', 10, 'Please enter 10 number'),
-        lidator.isRequired('.input-age', 'Please enter age'),
-        lidator.isNumber('.input-age', 'Please enter age'),
-        lidator.isRequired('.input-address', 'Please enter address'),
-        lidator.isRequired('.input-city', 'Please enter city'),
-        lidator.isRequired('.input-employer', 'Please enter employer'),
-        lidator.isRequired('.input-email', 'Please enter email'),
+        Validator.isRequired('.input-balance', "Please enter balance"),
+        Validator.isNumber('.input-balance', "Please enter balance"),
+        Validator.maxLength('.input-balance', 10, 'Please enter 10 number'),
+        Validator.isRequired('.input-age', 'Please enter age'),
+        Validator.isNumber('.input-age', 'Please enter age'),
+        Validator.isRequired('.input-address', 'Please enter address'),
+        Validator.isRequired('.input-city', 'Please enter city'),
+        Validator.isRequired('.input-employer', 'Please enter employer'),
+        Validator.isRequired('.input-email', 'Please enter email'),
         Validator.isEmail('.input-email', 'Please enter your mail correctly'),
 
       ],

@@ -2,15 +2,16 @@
 session_start();
 include_once './config/Data.php';
 include_once './handle/role.php';
+require './function/function.php';
 
 $data = new Data();
 $connect = $data->connect();
 
-$is_admin = getRole($_SESSION['account']);
+// $is_admin = getRole($_SESSION['account']);
+$permissions = $_SESSION['permissions'];
 
-if (!$is_admin) {
+if (!checkPermission($permissions, 'view-user')) {
   header('location: index.php');
-  var_dump(isset($_SESSION['account']));
 }
 
 if (!empty(isset($validate))) {
@@ -23,24 +24,17 @@ if (isset($_GET['message'])) {
 }
 
 
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900;1000&display=swap"
-    rel="stylesheet">
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
-  <link rel="stylesheet" href="./assets/css/style.css">
-  <script src="https://kit.fontawesome.com/49dffc725c.js" crossorigin="anonymous"></script>
-
+  <?php
+  include_once('./layout/header.html');
+  ?>
   <title>User</title>
 </head>
 
@@ -53,8 +47,17 @@ if (isset($_GET['message'])) {
       <div class="row">
         <div class="col-12-xl col-12-lg">
           <div class="user-header">
+            <?php
+            if (checkPermission($permissions, 'insert-user')) {
+            ?>
             <a href="?new-user" class="user-header-button">Add User</a>
+            <?php
+            }
+            ?>
           </div>
+          <?php
+          if (checkPermission($permissions, 'view-user')) {
+          ?>
           <table class="user-table">
             <thead>
               <tr>
@@ -69,36 +72,44 @@ if (isset($_GET['message'])) {
             </thead>
             <tbody>
               <?php
-              $sql = 'SELECT user.username, phone, email, password, roles.roles_name as roles, country
+            $sql = 'SELECT user.username, phone, email, password, roles.roles_name as roles, country
               FROM user, roles, user_role
               WHERE user_role.roleID = roles.roles
               AND user.userID = user_role.userID
               AND NOT user.email = "' . $_SESSION['account'] . '"
               ORDER BY user.username ASC';
 
-              $statement = $connect->prepare($sql);
-              $statement->execute();
-              $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-              $colCount = $statement->columnCount();
-              $str = '';
-              for ($i = 0; $i <= count($result) - 1; $i++) {
-                $str .= "<tr>
+            $statement = $connect->prepare($sql);
+            $statement->execute();
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $colCount = $statement->columnCount();
+            $str = '';
+            for ($i = 0; $i <= count($result) - 1; $i++) {
+              $str .= "<tr>
               <td>" . $result[$i]['username'] . "</td>
               <td>" . $result[$i]['phone'] . "</td>
               <td>" . $result[$i]['email'] . "</td>
               <td>" . $result[$i]['roles'] . "</td>
-              <td>" . $result[$i]['country'] . "</td>
-              <td><a href = '?user-email=" . $result[$i]['email'] . "' class ='link-icon'>
-              <i class='fi fi-sr-eye'></i></a></td>
-              <td><a href = './handle/delete-user.php?email=" . $result[$i]['email'] . "' onclick = 'return showMessageDelete(this)' class = 'link-icon'>
-              <i class='red-color fa-solid fa-trash'></i></a>
-              </td>
-              </tr> ";
+              <td>" . $result[$i]['country'] . "</td>";
+              if (checkPermission($permissions, 'edit-user')) {
+                $str .= "<td><a href = '?user-email=" . $result[$i]['email'] . "' class ='link-icon'>
+              <i class='fi fi-sr-eye'></i></a></td>";
               }
-              echo $str;
+              if (checkPermission($permissions, 'delete-user')) {
+                $str .= "<td><a href = './handle/delete-user.php?email=" . $result[$i]['email'] . "' onclick = 'return showMessageDelete(this)' class = 'link-icon'>
+                <i class='red-color fa-solid fa-trash'></i></a>
+                </td>";
+              }
+
+              $str .= "</tr> ";
+            }
+            echo $str;
               ?>
             </tbody>
           </table>
+          <?php } else {
+            header('location: index.php');
+          } ?>
         </div>
       </div>
     </div>
@@ -169,12 +180,8 @@ if (isset($_GET['message'])) {
           <div class="overlay-info-content-wrap">
             <h4 class="h4-heading">Email</h4>
             <input type='email' name='info-email' class="input-text input-email" value=<?php if
-            (isset($_GET['user-email'])) {
-              echo "'" . $_GET['user-email'] . "' readonly";
-            } else {
-              echo
-                isset($_SESSION['add-new-add-user']) ? $_SESSION['add-new-user']['email'] : '';
-            } ?>>
+              (isset($_GET['user-email'])) { echo "'" . $_GET['user-email'] . "' readonly"; } else { echo
+              isset($_SESSION['add-new-add-user']) ? $_SESSION['add-new-user']['email'] : ''; } ?>>
           </div>
           <p class="validation-message"></p>
         </div>
@@ -248,7 +255,6 @@ if (isset($_GET['message'])) {
   </div>
 
   <script src="./assets/js/main.js"></script>
-  <script src="./assets/js/search.js"></script>
   <script src="./assets/js/validate.js"></script>
 
   <!-- validation -->

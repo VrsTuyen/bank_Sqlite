@@ -18,7 +18,7 @@
     ?>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method='get' class="navigation-search-form">
       <input type="text" class="navigation-search-input" name="input-search" placeholder="Search"
-        onkeyup="liveSearch(this.value)">
+        onkeyup=liveSearch(this.value)>
     </form>
     <?php
     }
@@ -28,9 +28,13 @@
     <li class='navigation-list-item'>
       <a href='index.php' class='navigation-list-item-link'>Home</a>
     </li>
-    <?php if ($is_admin) {
+    <?php if (checkPermission($permissions, 'view-user')) {
       echo " <li class='navigation-list-item'>
-          <a href='user.php' class='navigation-list-item-link'>User</a></li>";
+          <a href='user.php' class='navigation-list-item-link'>Users</a></li>";
+    } ?>
+    <?php if (checkPermission($permissions, 'view-role')) {
+      echo " <li class='navigation-list-item'>
+          <a href='role.php' class='navigation-list-item-link'>Roles</a></li>";
     } ?>
     <li class="navigation-list-item">
       <a href="./handle/logout.php" class="navigation-list-item-link" onclick="return logout(this)">logout</a>

@@ -24,26 +24,30 @@
   }
 
   &-table {
-    display: block;
     width: 100%;
     font-size: 1.6rem;
     text-align: center;
-    height: 500px;
+    max-height: 500px;
     overflow: auto;
 
     thead {
       width: 100%;
-      display: block;
-      padding: 16px 0;
       background-color: $french-gray;
+
+      tr {
+        th {
+          padding: 16px 0;
+          border: 0.5px solid rgba(67, 74, 84, 0.3);
+        }
+      }
     }
 
     tbody {
       width: 100%;
-      display: block;
       text-align: center;
 
       tr {
+
         &:hover {
           background-color: $almond;
         }
@@ -52,14 +56,18 @@
 
     tr {
       width: 100%;
-      display: flex;
-      justify-content: space-around;
+
+
 
       th,
       td {
         text-align: center;
-        width: 100%;
-        padding: 8px 0;
+        padding: 16px 0;
+      }
+
+      td {
+        border: 0.5px solid rgba(67, 74, 84, 0.3);
+
       }
     }
   }

@@ -1,7 +1,7 @@
 .navigation {
   padding: 2rem 0;
   width: 300px;
-  height: 100vh;
+  min-height: 100vh;
   background: $melanie;
   display: flex;
   flex-direction: column;

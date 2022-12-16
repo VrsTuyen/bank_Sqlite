@@ -1,4 +1,4 @@
-const $ = document.querySelector.bind(document)
+// const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document)
 
 function set_active(element_1, element_2) {
@@ -26,11 +26,6 @@ $$('.link-tab').forEach(element => {
   })
 });
 
-// $('.content-header-list').addEventListener('click', () => {
-//   $('.content-header-list-select-page').classList.toggle('active')
-//   console.log('$')
-// })
-
 function showMessageDelete(link) {
   if (confirm('Are you sure?')) {
     doAjax(link.href, "POST");
@@ -44,12 +39,3 @@ function logout(link) {
   }
   return false;
 }
-
-
-
-
-// window.addEventListener('click', () => {
-//   if ($('.content-header-list.active') != null) {
-//     $('.content-header-list.active').classList.remove('active')
-//   }
-// })

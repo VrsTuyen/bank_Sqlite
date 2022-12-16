@@ -1,0 +1,14 @@
+.primary-button {
+  text-decoration: none;
+  font-size: 1.6rem;
+  color: #033495;
+  padding: 8px 24px;
+  border: 1px solid #033495;
+  text-transform: capitalize;
+  display: inline-block;
+
+  &:hover {
+    color: #6a9cfd;
+    border-color: #6a9cfd;
+  }
+}
