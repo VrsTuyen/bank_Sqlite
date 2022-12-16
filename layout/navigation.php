@@ -30,11 +30,11 @@
     </li>
     <?php if (checkPermission($permissions, 'view-user')) {
       echo " <li class='navigation-list-item'>
-          <a href='user.php' class='navigation-list-item-link'>Users</a></li>";
+          <a href='user.php' class='navigation-list-item-link'>User</a></li>";
     } ?>
     <?php if (checkPermission($permissions, 'view-role')) {
       echo " <li class='navigation-list-item'>
-          <a href='role.php' class='navigation-list-item-link'>Roles</a></li>";
+          <a href='role.php' class='navigation-list-item-link'>Role</a></li>";
     } ?>
     <li class="navigation-list-item">
       <a href="./handle/logout.php" class="navigation-list-item-link" onclick="return logout(this)">logout</a>
