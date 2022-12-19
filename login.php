@@ -1,7 +1,6 @@
 <?php
 session_start();
 include_once './config/Data.php';
-include_once './handle/role.php';
 
 $db = new Data();
 $connect = $db->connect();
