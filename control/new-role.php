@@ -25,6 +25,8 @@ try {
       }
     }
     $sql = $sql . $sqlValues;
+    // echo $sql;
+    // exit;
     $statement = $connect->prepare($sql);
     $check2 = $statement->execute();
     if ($check1 && $check2) {

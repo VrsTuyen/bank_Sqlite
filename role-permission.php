@@ -19,17 +19,11 @@ roles ON role_permission.roleID = roles.roles where roleID = $role";
 
 $statement = $connect->prepare($sql);
 $statement->execute();
-$permission = $statement->fetchAll();
-
-function checkedPermission($value, $permissions)
-{
-  foreach ($permissions as $row) {
-    if ($row['permissionID'] === $value) {
-      echo "checked = true";
-    }
-  }
+$permissions = $statement->fetchAll();
+$permission = [];
+foreach ($permissions as $pms) {
+  $permission[] = $pms['permissionID'];
 }
-
 
 ?>
 
@@ -80,26 +74,26 @@ function checkedPermission($value, $permissions)
                 <div class="form-group-checkbox">
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="1" name="data[]" id="view-account" <?php checkedPermission( 1,
-                      $permission ) ?>>
+                    <input type="checkbox" value="1" name="data[]" id="view-account" <?php if (in_array(1, $permission))
+                      echo "checked=true" ?>>
                     <label for="view-account">View Accounts</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="2" name="data[]" id="insert-account" <?php checkedPermission( 2,
-                      $permission ) ?>>
+                    <input type="checkbox" value="2" name="data[]" id="insert-account" <?php if ( in_array( 2,
+                      $permission ) ) echo "checked=true" ?>>
                     <label for="insert-account">insert Accounts</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="3" name="data[]" id="edit-account" <?php checkedPermission( 3,
-                      $permission ) ?>>
+                    <input type="checkbox" value="3" name="data[]" id="edit-account" <?php if (in_array(3, $permission))
+                      echo "checked=true" ?>>
                     <label for="edit-account">edit Accounts</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="4" name="data[]" id="delete-account" <?php checkedPermission( 4,
-                      $permission ) ?>>
+                    <input type="checkbox" value="4" name="data[]" id="delete-account" <?php if ( in_array( 4,
+                      $permission ) ) echo "checked=true" ?>>
                     <label for="delete-account">delete Accounts</label>
                   </div>
 
@@ -115,30 +109,26 @@ function checkedPermission($value, $permissions)
                 </div>
                 <div class="form-group-checkbox">
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="5" name="data[]" id="view-user" <?php checkedPermission( 5,
-                      $permission ) ?>>
+                    <input type="checkbox" value="5" name="data[]" id="view-user" <?php if (in_array(5, $permission))
+                      echo "checked=true" ?>>
                     <label for="view-user">View user</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="6" name="data[]" id="insert-user" <?php checkedPermission(
-                      6,
-                      $permission
-                    ) ?>>
+                    <input type="checkbox" value="6" name="data[]" id="insert-user" <?php if (in_array(6, $permission))
+                      echo "checked=true" ?>>
                     <label for="insert-user">insert user</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="7" name="data[]" id="edit-user" <?php checkedPermission( 7,
-                      $permission ) ?>>
+                    <input type="checkbox" value="7" name="data[]" id="edit-user" <?php if (in_array(7, $permission))
+                      echo "checked=true" ?>>
                     <label for="edit-user">edit user</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="8" name="data[]" id="delete-user" <?php checkedPermission(
-                      8,
-                      $permission
-                    ) ?>>
+                    <input type="checkbox" value="8" name="data[]" id="delete-user" <?php if (in_array(8, $permission))
+                      echo "checked=true" ?>>
                     <label for="delete-user">delete user</label>
                   </div>
                 </div>
@@ -152,28 +142,26 @@ function checkedPermission($value, $permissions)
                 </div>
                 <div class="form-group-checkbox">
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs   form-group-checkbox-element">
-                    <input type="checkbox" value="9" name="data[] id=" view-role" <?php checkedPermission( 9,
-                      $permission ) ?>>
+                    <input type="checkbox" value="9" name="data[]" id="view-role" <?php if (in_array(9, $permission))
+                      echo "checked=true" ?>>
                     <label for="view-role">View Roles</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="10" name="data[]" id="insert-role" <?php checkedPermission( 10,
-                      $permission ) ?>>
+                    <input type="checkbox" value="10" name="data[]" id="insert-role" <?php if ( in_array( 10,
+                      $permission ) ) echo "checked=true" ?>>
                     <label for="insert-role">insert Roles</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="11" name="data[]" id="edit-role" <?php checkedPermission(
-                      11,
-                      $permission
-                    ) ?>>
+                    <input type="checkbox" value="11" name="data[]" id="edit-role" <?php if (in_array(11, $permission))
+                      echo "checked=true" ?>>
                     <label for="edit-role">edit Roles</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="12" name="data[]" id="delete-role" <?php checkedPermission( 12,
-                      $permission ) ?>>
+                    <input type="checkbox" value="12" name="data[]" id="delete-role" <?php if ( in_array( 12,
+                      $permission ) ) echo "checked=true" ?>>
                     <label for="delete-role">delete Roles</label>
                   </div>
 
