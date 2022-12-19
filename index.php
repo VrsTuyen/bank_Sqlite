@@ -2,21 +2,25 @@
 session_start();
 include './config/Data.php';
 include_once('./function/function.php');
+// include_once './handle/role.php';
 
 $data = new Data();
 $connect = $data->connect();
 
-include_once './handle/role.php';
-
-$email = $_SESSION['account'];
-$is_admin = getRole($email);
-
-
-$permissions = getPermissions($email);
 
 if (empty($_SESSION['account'])) {
   header('location: login.php');
 }
+
+
+
+
+$email = $_SESSION['account'];
+// $is_admin = getRole($email);
+
+
+$permissions = getPermissions($email);
+
 $_SESSION['permissions'] = $permissions;
 
 $limit = 15;

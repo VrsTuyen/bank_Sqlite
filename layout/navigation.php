@@ -1,11 +1,14 @@
 <div class="navigation">
   <h2 class="h2-heading">
     <?php
-    $sql = "select username from user where email = '" . $_SESSION['account'] . "'";
-    $statement = $connect->prepare($sql);
-    $statement->execute();
-    $result = $statement->fetch();
-    echo $result[0];
+    try {
+      $sql = "select username from user where email = '" . $_SESSION['account'] . "'";
+      $statement = $connect->prepare($sql);
+      $statement->execute();
+      $result = $statement->fetch();
+      echo $result[0];
+    } catch (PDOException $e) {
+    }
     ?>
   </h2>
   <div class="navigation-search">

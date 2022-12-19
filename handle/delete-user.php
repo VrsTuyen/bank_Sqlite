@@ -2,9 +2,9 @@
 session_start();
 include_once('../config/Data.php');
 include_once('role.php');
-$is_admin = getRole($_SESSION['account']);
+// $is_admin = getRole($_SESSION['account']);
 
-if ($is_admin) {
+if (checkPermission($permissions, 'edit-user')) {
   $data = new Data();
   $connect = $data->connect();
 

@@ -1,11 +1,11 @@
 <?php
 if (isset($_POST['submit'])) {
 
-  $is_admin = getRole($_SESSION['account']);
+  // $is_admin = getRole($_SESSION['account']);
 
-  if (!$is_admin) {
-    header('location: index.php');
-  }
+  // if (!$is_admin) {
+  //   header('location: index.php');
+  // }
 
   $userName = filter_input(INPUT_POST, 'info-username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
   $phone = filter_input(INPUT_POST, 'info-phone', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
