@@ -182,8 +182,12 @@ if (isset($_GET['message'])) {
           <div class="overlay-info-content-wrap">
             <h4 class="h4-heading">Email</h4>
             <input type='email' name='info-email' class="input-text input-email" value=<?php if
-              (isset($_GET['user-email'])) { echo "'" . $_GET['user-email'] . "' readonly"; } else { echo
-              isset($_SESSION['add-new-add-user']) ? $_SESSION['add-new-user']['email'] : ''; } ?>>
+            (isset($_GET['user-email'])) {
+              echo "'" . $_GET['user-email'] . "' readonly";
+            } else {
+              echo
+                isset($_SESSION['add-new-add-user']) ? $_SESSION['add-new-user']['email'] : '';
+            } ?>>
           </div>
           <p class="validation-message"></p>
         </div>
@@ -279,7 +283,6 @@ if (isset($_GET['message'])) {
           return document.querySelector('.form-new .input-password').value
         }, 'Password incorrect, please try again'),
         Validator.maxLength('.input-country', 2, 'Enter up to 2 characters'),
-
       ],
 
     })

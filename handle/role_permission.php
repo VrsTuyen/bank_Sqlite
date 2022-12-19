@@ -6,6 +6,9 @@ $connect = $data->connect();
 $roleName = filter_input(INPUT_POST, 'role-name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 $roleID = $_POST['roleID'];
+$dt = $_POST['data'];
+print_r($dt);
+exit;
 try {
 
   $sql = "update roles set roles_name = '$roleName' where roles ='$roleID'";
@@ -18,7 +21,7 @@ try {
 
   $role_permission = $data->getMax('rolePermissionID', 'role_permission');
 
-  $dt = $_POST;
+
   $sql = "insert into role_permission(rolePermissionID, roleID, permissionID) values ";
   $sqlValues = '';
   foreach ($dt as $key => $value) {

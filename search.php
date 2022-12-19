@@ -1,13 +1,15 @@
 <?php
 session_start();
-$permissions = $_SESSION['permissions'];
+
 $limit = 15;
 $page = 1;
 
-include_once('./../function/function.php');
-include_once('./../config/Data.php');
+include_once('./config/Data.php');
+include_once('./function/function.php');
+
+$permissions = getPermissions($_SESSION['account']);
+
 $data = new Data();
-global $connect;
 $connect = $data->connect();
 
 if (isset($_GET['page'])) {
@@ -51,9 +53,12 @@ if (isset($_GET['data']) && $_GET['data'] != '' && $_GET['data'] != 'undefined')
 if (isset($_GET['order']) && !empty($_GET['order'])) {
   $sql .= " order by accounts." . $_GET['order'];
 }
-// echo ($sql);
-// exit();
-$result = $data->read($sql);
+
+// $result = $data->read($sql);
+
+$statement = $connect->prepare($sql);
+$statement->execute();
+$result = $statement->fetchAll();
 $total_data = count($result);
 
 $sql .= " LIMIT $start, $limit ;";

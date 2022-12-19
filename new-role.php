@@ -55,22 +55,22 @@ $permissions = $_SESSION['permissions'];
                 <div class="form-group-checkbox">
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="1" name="1" id="view-account">
+                    <input type="checkbox" value="1" name="data[]" id="view-account">
                     <label for="view-account">View Accounts</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="2" name="2" id="insert-account">
+                    <input type="checkbox" value="2" name="data[]" id="insert-account">
                     <label for="insert-account">insert Accounts</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="3" name="3" id="edit-account">
+                    <input type="checkbox" value="3" name="data[]" id="edit-account">
                     <label for="edit-account">edit Accounts</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="4" name="4" id="delete-account">
+                    <input type="checkbox" value="4" name="data[]" id="delete-account">
                     <label for="delete-account">delete Accounts</label>
                   </div>
 
@@ -86,22 +86,22 @@ $permissions = $_SESSION['permissions'];
                 </div>
                 <div class="form-group-checkbox">
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="5" name="5" id="view-user">
+                    <input type="checkbox" value="5" name="data[]" id="view-user">
                     <label for="view-user">View user</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="6" name="6" id="insert-user">
+                    <input type="checkbox" value="6" name="data[]" id="insert-user">
                     <label for="insert-user">insert user</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="7" name="7" id="edit-user">
+                    <input type="checkbox" value="7" name="data[]" id="edit-user">
                     <label for="edit-user">edit user</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="8" name="8" id="delete-user">
+                    <input type="checkbox" value="8" name="data[]" id="delete-user">
                     <label for="delete-user">delete user</label>
                   </div>
                 </div>
@@ -116,22 +116,22 @@ $permissions = $_SESSION['permissions'];
                 <div class="form-group-checkbox">
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs   form-group-checkbox-element">
-                    <input type="checkbox" value="9" name="9" id="view-role">
+                    <input type="checkbox" value="9" name="data[]" id="view-role">
                     <label for="view-role">View Roles</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="10" name="10" id="insert-role">
+                    <input type="checkbox" value="10" name="data[]" id="insert-role">
                     <label for="insert-role">insert Roles</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="11" name="11" id="edit-role">
+                    <input type="checkbox" value="11" name="data[]" id="edit-role">
                     <label for="edit-role">edit Roles</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="12" name="12" id="delete-role">
+                    <input type="checkbox" value="12" name="data[]" id="delete-role">
                     <label for="delete-role">delete Roles</label>
                   </div>
 

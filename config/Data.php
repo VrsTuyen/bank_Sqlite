@@ -1,5 +1,5 @@
 <?php
-global $connect;
+// global $connect;
 
 class Database
 {
@@ -7,7 +7,6 @@ class Database
   // private $__db_name = 'bank';
   // private $__username = 'root';
   // private $__password = '';
-
   function connect()
   {
     $connect = null;
@@ -15,27 +14,14 @@ class Database
       $connect = new PDO(
         "sqlite:bank.db",
         "",
-        "",
-        array(
-            PDO::ATTR_PERSISTENT => true
-        )
+        ""
       );
       $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      // $connect->exec('set names utf8');
-      // echo "Connection Successfully";
       return $connect;
     } catch (PDOException $e) {
       echo "<h1>Connection failed " . $e->getMessage() . "</h1>";
       $connect = null;
       exit;
-    }
-  }
-
-  function disconnect()
-  {
-    global $connect;
-    if ($connect) {
-      $connect = null;
     }
   }
 }
@@ -53,11 +39,11 @@ class Data extends Database
 
   function read($sql)
   {
-    global $connect;
     $connect = $this->connect();
     $statement = $connect->prepare($sql);
     $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
   }
   function getMax($column, $table, $where = '')
   {

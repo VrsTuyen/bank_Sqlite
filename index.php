@@ -15,7 +15,9 @@ $email = $_SESSION['account'];
 // $is_admin = getRole($email);
 
 
+
 $permissions = getPermissions($email);
+
 
 $_SESSION['permissions'] = $permissions;
 

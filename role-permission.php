@@ -79,32 +79,26 @@ function checkedPermission($value, $permission)
                 <div class="form-group-checkbox">
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="1" name="1" id="view-account" <?php checkedPermission(
-                      1,
-                      $permission
-                    ) ?>>
+                    <input type="checkbox" value="1" name="data[]" id="view-account" <?php checkedPermission( 1,
+                      $permission ) ?>>
                     <label for="view-account">View Accounts</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="2" name="2" id="insert-account" <?php checkedPermission(
-                      2,
-                      $permission
-                    ) ?>>
+                    <input type="checkbox" value="2" name="data[]" id="insert-account" <?php checkedPermission( 2,
+                      $permission ) ?>>
                     <label for="insert-account">insert Accounts</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="3" name="3" id="edit-account" <?php checkedPermission(3, $permission)
-                      ?>>
+                    <input type="checkbox" value="3" name="data[]" id="edit-account" <?php checkedPermission(3,
+                      $permission) ?>>
                     <label for="edit-account">edit Accounts</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="4" name="4" id="delete-account" <?php checkedPermission(
-                      4,
-                      $permission
-                    ) ?>>
+                    <input type="checkbox" value="4" name="data[]" id="delete-account" <?php checkedPermission( 4,
+                      $permission ) ?>>
                     <label for="delete-account">delete Accounts</label>
                   </div>
 
@@ -120,24 +114,30 @@ function checkedPermission($value, $permission)
                 </div>
                 <div class="form-group-checkbox">
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="5" name="5" id="view-user" <?php checkedPermission(5, $permission) ?>>
+                    <input type="checkbox" value="5" name="data[]" id="view-user" <?php checkedPermission(5,
+                      $permission) ?>>
                     <label for="view-user">View user</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="6" name="6" id="insert-user" <?php checkedPermission(6,
-                      $permission) ?>>
+                    <input type="checkbox" value="6" name="data[]" id="insert-user" <?php checkedPermission(
+                      6,
+                      $permission
+                    ) ?>>
                     <label for="insert-user">insert user</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="7" name="7" id="edit-user" <?php checkedPermission(7, $permission) ?>>
+                    <input type="checkbox" value="7" name="data[]" id="edit-user" <?php checkedPermission(7,
+                      $permission) ?>>
                     <label for="edit-user">edit user</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="8" name="8" id="delete-user" <?php checkedPermission(8,
-                      $permission) ?>>
+                    <input type="checkbox" value="8" name="data[]" id="delete-user" <?php checkedPermission(
+                      8,
+                      $permission
+                    ) ?>>
                     <label for="delete-user">delete user</label>
                   </div>
                 </div>
@@ -150,31 +150,29 @@ function checkedPermission($value, $permission)
                   <label for="full-roles">Roles</label>
                 </div>
                 <div class="form-group-checkbox">
-
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs   form-group-checkbox-element">
-                    <input type="checkbox" value="9" name="9" id="view-role" <?php checkedPermission(9, $permission) ?>>
+                    <input type="checkbox" value="9" name="data[] id=" view-role" <?php checkedPermission(9,
+                      $permission) ?>>
                     <label for="view-role">View Roles</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="10" name="10" id="insert-role" <?php checkedPermission(
-                      10,
-                      $permission
-                    ) ?>>
+                    <input type="checkbox" value="10" name="data[]" id="insert-role" <?php checkedPermission( 10,
+                      $permission ) ?>>
                     <label for="insert-role">insert Roles</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="11" name="11" id="edit-role" <?php checkedPermission(11,
-                      $permission) ?>>
+                    <input type="checkbox" value="11" name="data[]" id="edit-role" <?php checkedPermission(
+                      11,
+                      $permission
+                    ) ?>>
                     <label for="edit-role">edit Roles</label>
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="12" name="12" id="delete-role" <?php checkedPermission(
-                      12,
-                      $permission
-                    ) ?>>
+                    <input type="checkbox" value="12" name="data[]" id="delete-role" <?php checkedPermission( 12,
+                      $permission ) ?>>
                     <label for="delete-role">delete Roles</label>
                   </div>
 

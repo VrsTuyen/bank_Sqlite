@@ -4,7 +4,10 @@ $data = new Data();
 $connect = $data->connect();
 $roleName = filter_input(INPUT_POST, 'role-name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-$dt = $_POST;
+$dt = $_POST['data'];
+print_r($dt);
+exit;
+
 try {
   if (count($dt) > 1) {
     $roleID = $data->getMax('roles', 'roles');
