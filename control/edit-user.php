@@ -1,5 +1,5 @@
 <?php
-include './../config/Data.php';
+include_once './../control/Data.php';
 $data = new Data();
 $connect = $data->Connect();
 

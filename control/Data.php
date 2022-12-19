@@ -1,6 +1,4 @@
 <?php
-// global $connect;
-
 class Database
 {
   private $__host = 'sqlite';
@@ -11,11 +9,19 @@ class Database
   {
     $connect = null;
     try {
-      $connect = new PDO(
-        "sqlite:bank.db",
-        "",
-        ""
-      );
+      if (file_exists('bank.db')) {
+        $connect = new PDO(
+          "sqlite:bank.db",
+          "",
+          ""
+        );
+      } else {
+        $connect = new PDO(
+          "sqlite:../bank.db",
+          "",
+          ""
+        );
+      }
       $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       return $connect;
     } catch (PDOException $e) {
@@ -97,6 +103,13 @@ class Data extends Database
     $statement->execute();
     $total = $statement->fetch()['total'];
     return $total;
+  }
+  function query($sql)
+  {
+    $connect = $this->connect();
+    $statement = $connect->prepare($sql);
+    $result = $statement->execute();
+    return $result;
   }
 }
 ?>

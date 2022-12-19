@@ -1,14 +1,13 @@
 <?php
-include_once './../config/Data.php';
-include_once './../function/function.php';
+include_once './../control/Data.php';
+include_once './../control/function.php';
 $data = new Data();
 $connect = $data->connect();
 $roleName = filter_input(INPUT_POST, 'role-name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 $roleID = $_POST['roleID'];
-$dt = $_POST['data'];
-print_r($dt);
-exit;
+$dt = isset($_POST['data']) ? $_POST['data'] : '';
+
 try {
 
   $sql = "update roles set roles_name = '$roleName' where roles ='$roleID'";

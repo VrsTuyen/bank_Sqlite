@@ -4,13 +4,14 @@ session_start();
 $limit = 15;
 $page = 1;
 
-include_once('./config/Data.php');
-include_once('./function/function.php');
-
-$permissions = getPermissions($_SESSION['account']);
+include_once('./Data.php');
+include_once('./function.php');
 
 $data = new Data();
 $connect = $data->connect();
+
+$permissions = getPermissions($_SESSION['account'], $connect);
+
 
 if (isset($_GET['page'])) {
   $page = (int) $_GET['page'];
@@ -101,7 +102,7 @@ if ($total_data > 0) {
       $output .= "<td><a class = 'link-icon' href = '?account_number=" . $row['account_number'] . "'><i class='fi fi-sr-eye'></i></a></td>";
     }
     if (checkPermission($permissions, 'delete-account')) {
-      $output .= "<td><a href = './handle/delete.php?page=" . $_GET['page'] . "&account_number=" . $row['account_number'] . "' onclick = 'return showMessageDelete(this)' class = 'link-icon'> <i class='red-color fa-solid fa-trash'></i></a></td>";
+      $output .= "<td><a href = './control/delete.php?page=" . $_GET['page'] . "&account_number=" . $row['account_number'] . "' onclick = 'return showMessageDelete(this)' class = 'link-icon'> <i class='red-color fa-solid fa-trash'></i></a></td>";
     }
     $output .= "</tr>";
   }
@@ -222,4 +223,27 @@ if (!$total_data == 0) {
 $output .= "$previous_link $page_link $next_link";
 $output .= '</ul>';
 echo $output;
+
+
+
+function getPermissions($email, $connect)
+{
+  try {
+    $permission = array();
+    $sql = "SELECT permission.permissionType 
+  FROM user INNER JOIN user_role on (user.userID = user_role.userID) 
+  INNER JOIN roles on (user_role.roleID = roles.roles) 
+  INNER JOIN role_permission on (roles.roles = role_permission.roleID) 
+  INNER JOIN permission on (role_permission.permissionID = permission.permissionID) WHERE user.email = '$email';";
+    $statement = $connect->prepare($sql);
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row) {
+      $permission[] = $row['permissionType'];
+    }
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
+  return $permission;
+}
 ?>

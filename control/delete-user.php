@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once('../config/Data.php');
-include_once('../function/function.php');
+include_once('../control/Data.php');
+include_once('../control/function.php');
 include_once('role.php');
 $permissions = $_SESSION['permissions'];
 // $is_admin = getRole($_SESSION['account']);

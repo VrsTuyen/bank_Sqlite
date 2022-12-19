@@ -1,7 +1,8 @@
 <?php
-include_once './../config/Data.php';
-$db = new Data();
-$connect = $db->connect();
+include_once './../control/Data.php';
+
+$data = new Data();
+$connect = $data->connect();
 
 $account_number = filter_input(INPUT_POST, 'info-account_number', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -18,36 +19,35 @@ $employer = filter_input(INPUT_POST, 'info-employer', FILTER_SANITIZE_FULL_SPECI
 $email = filter_input(INPUT_POST, 'info-email', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $age = filter_input(INPUT_POST, 'info-age', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-// echo "$state";
 try {
   $sql = "UPDATE accounts SET
-    balance = :balance,
-    first_name = :first_name,
-    last_name = :last_name,
-    age = :age,
-    gender = :gender,
-    address = :address,
-    employer = :employer,
-    email =:email,
-    city = :city,
-    state = :state
-    WHERE account_number = :account_number";
+    balance = $balance,
+    first_name = '$first_name',
+    last_name = '$last_name',
+    age = $age,
+    gender = '$gender',
+    address = '$address',
+    employer = '$employer',
+    email ='$email',
+    city = '$city',
+    state = '$state'
+    WHERE account_number = $account_number";
 
-  $statement = $connect->prepare($sql);
+  $statement = $data->query($sql);
 
-  $statement->bindParam(':balance', $balance);
-  $statement->bindParam(':first_name', $first_name);
-  $statement->bindParam(':last_name', $last_name);
-  $statement->bindParam(':age', $age);
-  $statement->bindParam(':gender', $gender);
-  $statement->bindParam(':address', $address);
-  $statement->bindParam(':employer', $employer);
-  $statement->bindParam(':email', $email);
-  $statement->bindParam(':city', $city);
-  $statement->bindParam(':state', $state);
-  $statement->bindParam(':account_number', $account_number);
+  // $statement->bindParam(':balance', $balance);
+  // $statement->bindParam(':first_name', $first_name);
+  // $statement->bindParam(':last_name', $last_name);
+  // $statement->bindParam(':age', $age);
+  // $statement->bindParam(':gender', $gender);
+  // $statement->bindParam(':address', $address);
+  // $statement->bindParam(':employer', $employer);
+  // $statement->bindParam(':email', $email);
+  // $statement->bindParam(':city', $city);
+  // $statement->bindParam(':state', $state);
+  // $statement->bindParam(':account_number', $account_number);
 
-  $result = $statement->execute();
+  // $statement->execute();
   header('location: ./../index.php');
 } catch (PDOException $e) {
   die("<h1> Error:" . $e->getMessage() . "</h1>");

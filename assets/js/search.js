@@ -35,11 +35,11 @@ http = object();
 function liveSearch(data = '', order = 'account_number', page = 1) {
   if (data.trim() != "") {
     http.onreadystatechange = process;
-    http.open('GET', './search.php?data=' + data.trim() + '&page=' + page + '&order=' + order, true);
+    http.open('GET', './control/search.php?data=' + data.trim() + '&page=' + page + '&order=' + order, true);
     http.send();
   } else {
     http.onreadystatechange = process;
-    http.open('GET', './search.php?page=' + page + '&order=' + order, true);
+    http.open('GET', './control/search.php?page=' + page + '&order=' + order, true);
     http.send();
   }
 }

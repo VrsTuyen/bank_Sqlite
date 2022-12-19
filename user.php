@@ -1,12 +1,12 @@
 <?php
 session_start();
-include_once './config/Data.php';
-require './function/function.php';
+include_once './control/Data.php';
+include_once './control/function.php';
 
 $data = new Data();
 $connect = $data->connect();
 
-$permissions = getPermissions($_SESSION['account']);
+$permissions = getPermissions($_SESSION['account'], $connect);
 
 // // $is_admin = getRole($_SESSION['account']);
 // $permissions = $_SESSION['permissions'];
@@ -24,9 +24,26 @@ if (isset($_GET['message'])) {
   echo "<script> alert('$message') </script>";
 }
 
-
-
-
+function getPermissions($email, $connect)
+{
+  try {
+    $permission = array();
+    $sql = "SELECT permission.permissionType 
+  FROM user INNER JOIN user_role on (user.userID = user_role.userID) 
+  INNER JOIN roles on (user_role.roleID = roles.roles) 
+  INNER JOIN role_permission on (roles.roles = role_permission.roleID) 
+  INNER JOIN permission on (role_permission.permissionID = permission.permissionID) WHERE user.email = '$email';";
+    $statement = $connect->prepare($sql);
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row) {
+      $permission[] = $row['permissionType'];
+    }
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
+  return $permission;
+}
 ?>
 
 <!DOCTYPE html>
@@ -97,7 +114,7 @@ if (isset($_GET['message'])) {
               <i class='fi fi-sr-eye'></i></a></td>";
               }
               if (checkPermission($permissions, 'delete-user')) {
-                $str .= "<td><a href = './handle/delete-user.php?email=" . $result[$i]['email'] . "' onclick = 'return showMessageDelete(this)' class = 'link-icon'>
+                $str .= "<td><a href = './control/delete-user.php?email=" . $result[$i]['email'] . "' onclick = 'return showMessageDelete(this)' class = 'link-icon'>
                 <i class='red-color fa-solid fa-trash'></i></a>
                 </td>";
               }
@@ -158,7 +175,7 @@ if (isset($_GET['message'])) {
         </h2>
       </div>
       <form
-        action="<?php echo isset($_GET['user-email']) ? './handle/edit-user.php' : (isset($_GET['new-user']) ? './handle/new-user.php' : '') ?>"
+        action="<?php echo isset($_GET['user-email']) ? './control/edit-user.php' : (isset($_GET['new-user']) ? './control/new-user.php' : '') ?>"
         method="post"
         class="<?php echo isset($_GET['user-email']) ? 'form-edit' : (isset($_GET['new-user']) ? 'form-new' : '') ?>">
         <div class="form-group">
@@ -182,12 +199,8 @@ if (isset($_GET['message'])) {
           <div class="overlay-info-content-wrap">
             <h4 class="h4-heading">Email</h4>
             <input type='email' name='info-email' class="input-text input-email" value=<?php if
-            (isset($_GET['user-email'])) {
-              echo "'" . $_GET['user-email'] . "' readonly";
-            } else {
-              echo
-                isset($_SESSION['add-new-add-user']) ? $_SESSION['add-new-user']['email'] : '';
-            } ?>>
+              (isset($_GET['user-email'])) { echo "'" . $_GET['user-email'] . "' readonly"; } else { echo
+              isset($_SESSION['add-new-add-user']) ? $_SESSION['add-new-user']['email'] : ''; } ?>>
           </div>
           <p class="validation-message"></p>
         </div>

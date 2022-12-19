@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once('./config/Data.php');
-include_once('./function/function.php');
+include_once('./control/Data.php');
+include_once('./control/function.php');
 $data = new Data();
 $connect = $data->connect();
 $permissions = $_SESSION['permissions'];
@@ -30,7 +30,7 @@ $permissions = $_SESSION['permissions'];
         <div class="col-12-lg col-12-xl col-12-md col-12-sm">
           <div class="content">
 
-            <form action="./handle/new-role.php" method="post" id="form">
+            <form action="./control/new-role.php" method="post" id="form">
               <div class="form-group">
                 <div class="form-group-head">
 

@@ -1,14 +1,34 @@
 <?php
 session_start();
-require_once('./config/Data.php');
-require_once('./function/function.php');
+require_once('./control/Data.php');
+require_once('./control/function.php');
 $data = new Data();
 $connect = $data->connect();
-$permissions = getPermissions($_SESSION['account']);
+$permissions = getPermissions($_SESSION['account'], $connect);
 if (!checkPermission($permissions, 'view-role')) {
   header('location:index.php');
 }
 
+function getPermissions($email, $connect)
+{
+  try {
+    $permission = array();
+    $sql = "SELECT permission.permissionType 
+  FROM user INNER JOIN user_role on (user.userID = user_role.userID) 
+  INNER JOIN roles on (user_role.roleID = roles.roles) 
+  INNER JOIN role_permission on (roles.roles = role_permission.roleID) 
+  INNER JOIN permission on (role_permission.permissionID = permission.permissionID) WHERE user.email = '$email';";
+    $statement = $connect->prepare($sql);
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row) {
+      $permission[] = $row['permissionType'];
+    }
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
+  return $permission;
+}
 ?>
 
 <!DOCTYPE html>
@@ -74,7 +94,7 @@ if (!checkPermission($permissions, 'view-role')) {
                     echo "<a href='role-permission.php?roleID=" . $row['roles'] . "' class='link-icon' title='Permission'><i class='fa-solid fa-user-gear'></i></a>";
                   }
                   if (checkPermission($permissions, 'delete-role')) {
-                    echo "<a href='handle/delete-role.php?roleID=" . $row['roles'] . "' class='link-icon' onclick='return showMessageDelete(this)' title='Delete'>
+                    echo "<a href='control/delete-role.php?roleID=" . $row['roles'] . "' class='link-icon' onclick='return showMessageDelete(this)' title='Delete'>
                     <i class='red-color fa-solid fa-trash'></i></a>";
                   }
                   echo "</td>

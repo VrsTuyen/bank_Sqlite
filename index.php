@@ -1,7 +1,7 @@
 <?php
 session_start();
-include './config/Data.php';
-include_once('./function/function.php');
+include './control/Data.php';
+include('./control/function.php');
 
 
 $data = new Data();
@@ -12,12 +12,8 @@ if (empty($_SESSION['account'])) {
 }
 
 $email = $_SESSION['account'];
-// $is_admin = getRole($email);
 
-
-
-$permissions = getPermissions($email);
-
+$permissions = getPermissions($email, $connect);
 
 $_SESSION['permissions'] = $permissions;
 
@@ -77,7 +73,7 @@ if (isset($_GET['page'])) {
   </div>
   <?php
   if (isset($_GET['account_number'])) {
-    include_once './handle/info.php';
+    include_once './control/info.php';
     echo "<div class='overlay active'>";
   ?>
   <div class="overlay-info">
@@ -85,7 +81,7 @@ if (isset($_GET['page'])) {
       <h2 class="h2-heading">Edit</h2>
     </div>
 
-    <form action="<?php echo isset($addNew) ? './handle/new.php' : './handle/edit.php' ?>" method="post" id="form">
+    <form action="<?php echo isset($addNew) ? './control/new.php' : './control/edit.php' ?>" method="post" id="form">
       <div class="overlay-info-content">
         <div class="overlay-info-content-left">
 
@@ -226,8 +222,8 @@ if (isset($_GET['page'])) {
     <div class="overlay-info-heading">
       <h2 class="h2-heading">New</h2>
     </div>
-    <form action="<?php echo isset($_GET['addNew']) ? './handle/newAccount.php' : './handle/edit.php' ?>" method="post"
-      id="form">
+    <form action="<?php echo isset($_GET['addNew']) ? './control/newAccount.php' : './control/edit.php' ?>"
+      method="post" id="form">
       <div class="overlay-info-content">
         <div class="overlay-info-content-left">
 
@@ -377,5 +373,26 @@ if (isset($_GET['page'])) {
   })
   </script>
 </body>
+<?php
+function getPermissions($email, $connect)
+{
+  try {
+    $permission = array();
+    $sql = "SELECT permission.permissionType 
+  FROM user INNER JOIN user_role on (user.userID = user_role.userID) 
+  INNER JOIN roles on (user_role.roleID = roles.roles) 
+  INNER JOIN role_permission on (roles.roles = role_permission.roleID) 
+  INNER JOIN permission on (role_permission.permissionID = permission.permissionID) WHERE user.email = '$email';";
+    $statement = $connect->prepare($sql);
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row) {
+      $permission[] = $row['permissionType'];
+    }
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
+  return $permission;
+} ?>
 
 </html>

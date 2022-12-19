@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once('./config/Data.php');
-include_once('./function/function.php');
+include_once('./control/Data.php');
+include_once('./control/function.php');
 $data = new Data();
 $connect = $data->connect();
 $permissions = $_SESSION['permissions'];
@@ -16,14 +16,15 @@ $role_name = $statement->fetchColumn();
 
 $sql = "select permissionID from role_permission  INNER JOIN
 roles ON role_permission.roleID = roles.roles where roleID = $role";
+
 $statement = $connect->prepare($sql);
 $statement->execute();
 $permission = $statement->fetchAll();
 
-function checkedPermission($value, $permission)
+function checkedPermission($value, $permissions)
 {
-  foreach ($permission as $row) {
-    if ($row['permissionID'] == $value) {
+  foreach ($permissions as $row) {
+    if ($row['permissionID'] === $value) {
       echo "checked = true";
     }
   }
@@ -53,7 +54,7 @@ function checkedPermission($value, $permission)
         <div class="col-12-lg col-12-xl col-12-md col-12-sm">
           <div class="content">
 
-            <form action="./handle/role_permission.php" method="post" id="form">
+            <form action="./control/role_permission.php" method="post" id="form">
               <input type="checkbox" name="roleID" hidden checked value="<?php echo $_GET['roleID'] ?>">
               <div class="form-group">
                 <div class="form-group-head">
@@ -91,8 +92,8 @@ function checkedPermission($value, $permission)
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="3" name="data[]" id="edit-account" <?php checkedPermission(3,
-                      $permission) ?>>
+                    <input type="checkbox" value="3" name="data[]" id="edit-account" <?php checkedPermission( 3,
+                      $permission ) ?>>
                     <label for="edit-account">edit Accounts</label>
                   </div>
 
@@ -114,8 +115,8 @@ function checkedPermission($value, $permission)
                 </div>
                 <div class="form-group-checkbox">
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="5" name="data[]" id="view-user" <?php checkedPermission(5,
-                      $permission) ?>>
+                    <input type="checkbox" value="5" name="data[]" id="view-user" <?php checkedPermission( 5,
+                      $permission ) ?>>
                     <label for="view-user">View user</label>
                   </div>
 
@@ -128,8 +129,8 @@ function checkedPermission($value, $permission)
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="7" name="data[]" id="edit-user" <?php checkedPermission(7,
-                      $permission) ?>>
+                    <input type="checkbox" value="7" name="data[]" id="edit-user" <?php checkedPermission( 7,
+                      $permission ) ?>>
                     <label for="edit-user">edit user</label>
                   </div>
 
@@ -151,8 +152,8 @@ function checkedPermission($value, $permission)
                 </div>
                 <div class="form-group-checkbox">
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs   form-group-checkbox-element">
-                    <input type="checkbox" value="9" name="data[] id=" view-role" <?php checkedPermission(9,
-                      $permission) ?>>
+                    <input type="checkbox" value="9" name="data[] id=" view-role" <?php checkedPermission( 9,
+                      $permission ) ?>>
                     <label for="view-role">View Roles</label>
                   </div>
 

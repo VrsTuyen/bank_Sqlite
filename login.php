@@ -1,11 +1,11 @@
 <?php
 session_start();
-include_once './config/Data.php';
+include_once './control/Data.php';
 
 $db = new Data();
 $connect = $db->connect();
 
-include_once './handle/login.php';
+include_once './control/login.php';
 ?>
 
 <!DOCTYPE html>

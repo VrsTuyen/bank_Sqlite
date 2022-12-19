@@ -1,15 +1,13 @@
 <?php
-include_once '../config/Data.php';
+include_once '../control/Data.php';
 $data = new Data();
 $connect = $data->connect();
 $roleName = filter_input(INPUT_POST, 'role-name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-$dt = $_POST['data'];
-print_r($dt);
-exit;
+$dt = isset($_POST['data']) ? $_POST['data'] : '';
 
 try {
-  if (count($dt) > 1) {
+  if (count($dt) > 0) {
     $roleID = $data->getMax('roles', 'roles');
     $role_permission = $data->getMax('rolePermissionID', 'role_permission');
     $sql = 'insert into roles(roles, roles_name) values(' . $roleID . ', "' . $roleName . '") ';

@@ -40,7 +40,7 @@
           <a href='role.php' class='navigation-list-item-link'>Role</a></li>";
     } ?>
     <li class="navigation-list-item">
-      <a href="./handle/logout.php" class="navigation-list-item-link" onclick="return logout(this)">logout</a>
+      <a href="./control/logout.php" class="navigation-list-item-link" onclick="return logout(this)">logout</a>
     </li>
   </ul>
 </div>
