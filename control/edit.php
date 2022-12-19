@@ -34,23 +34,9 @@ try {
     WHERE account_number = $account_number";
 
   $statement = $data->query($sql);
-
-  // $statement->bindParam(':balance', $balance);
-  // $statement->bindParam(':first_name', $first_name);
-  // $statement->bindParam(':last_name', $last_name);
-  // $statement->bindParam(':age', $age);
-  // $statement->bindParam(':gender', $gender);
-  // $statement->bindParam(':address', $address);
-  // $statement->bindParam(':employer', $employer);
-  // $statement->bindParam(':email', $email);
-  // $statement->bindParam(':city', $city);
-  // $statement->bindParam(':state', $state);
-  // $statement->bindParam(':account_number', $account_number);
-
-  // $statement->execute();
   header('location: ./../index.php');
 } catch (PDOException $e) {
-  die("<h1> Error:" . $e->getMessage() . "</h1>");
+  die("<h1> Error: Something Went Wrong</h1>");
 
 }
 

@@ -6,6 +6,10 @@ $roleName = filter_input(INPUT_POST, 'role-name', FILTER_SANITIZE_FULL_SPECIAL_C
 
 $dt = isset($_POST['data']) ? $_POST['data'] : '';
 
+
+
+
+
 try {
   if (count($dt) > 0) {
     $roleID = $data->getMax('roles', 'roles');
@@ -25,10 +29,10 @@ try {
       }
     }
     $sql = $sql . $sqlValues;
-    // echo $sql;
-    // exit;
+
     $statement = $connect->prepare($sql);
     $check2 = $statement->execute();
+
     if ($check1 && $check2) {
       header('location: ../role.php');
     } else {

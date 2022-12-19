@@ -8,9 +8,6 @@ $connect = $data->connect();
 
 $permissions = getPermissions($_SESSION['account'], $connect);
 
-// // $is_admin = getRole($_SESSION['account']);
-// $permissions = $_SESSION['permissions'];
-
 if (!checkPermission($permissions, 'view-user')) {
   header('location: index.php');
 }
@@ -22,27 +19,6 @@ if (!empty(isset($validate))) {
 if (isset($_GET['message'])) {
   $message = $_GET['message'];
   echo "<script> alert('$message') </script>";
-}
-
-function getPermissions($email, $connect)
-{
-  try {
-    $permission = array();
-    $sql = "SELECT permission.permissionType 
-  FROM user INNER JOIN user_role on (user.userID = user_role.userID) 
-  INNER JOIN roles on (user_role.roleID = roles.roles) 
-  INNER JOIN role_permission on (roles.roles = role_permission.roleID) 
-  INNER JOIN permission on (role_permission.permissionID = permission.permissionID) WHERE user.email = '$email';";
-    $statement = $connect->prepare($sql);
-    $statement->execute();
-    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($result as $row) {
-      $permission[] = $row['permissionType'];
-    }
-  } catch (PDOException $e) {
-    die($e->getMessage());
-  }
-  return $permission;
 }
 ?>
 
@@ -84,8 +60,13 @@ function getPermissions($email, $connect)
                 <th>Email</th>
                 <th>Role</th>
                 <th>Country</th>
+                <?php if (checkPermission($permissions, 'edit-user')) { ?>
                 <th></th>
+                <?php }
+            if (checkPermission($permissions, 'delete-user')) {
+                ?>
                 <th></th>
+                <?php } ?>
               </tr>
             </thead>
             <tbody>
@@ -97,10 +78,7 @@ function getPermissions($email, $connect)
               AND NOT user.email = "' . $_SESSION['account'] . '"
               ORDER BY user.username ASC';
 
-            $statement = $connect->prepare($sql);
-            $statement->execute();
-            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-            $colCount = $statement->columnCount();
+            $result = $data->read($sql);
             $str = '';
             for ($i = 0; $i <= count($result) - 1; $i++) {
               $str .= "<tr>
@@ -140,9 +118,7 @@ function getPermissions($email, $connect)
       $email = $_GET['user-email'];
       $sql = "SELECT user.userID, username, phone, password, country, roles.roles FROM user, user_role, roles WHERE user_role.roleID = roles.roles AND user.userID = user_role.userID AND email = '$email';";
 
-      $statement = $connect->prepare($sql);
-      $statement->execute();
-      $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+      $result = $data->read($sql);
       $userName = '';
       $phone = '';
       $password = '';
@@ -199,8 +175,12 @@ function getPermissions($email, $connect)
           <div class="overlay-info-content-wrap">
             <h4 class="h4-heading">Email</h4>
             <input type='email' name='info-email' class="input-text input-email" value=<?php if
-              (isset($_GET['user-email'])) { echo "'" . $_GET['user-email'] . "' readonly"; } else { echo
-              isset($_SESSION['add-new-add-user']) ? $_SESSION['add-new-user']['email'] : ''; } ?>>
+            (isset($_GET['user-email'])) {
+              echo "'" . $_GET['user-email'] . "' readonly";
+            } else {
+              echo
+                isset($_SESSION['add-new-add-user']) ? $_SESSION['add-new-user']['email'] : '';
+            } ?>>
           </div>
           <p class="validation-message"></p>
         </div>
@@ -316,7 +296,7 @@ function getPermissions($email, $connect)
       ],
 
     })
-  });
+  })
   </script>
 
 </body>

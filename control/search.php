@@ -55,8 +55,6 @@ if (isset($_GET['order']) && !empty($_GET['order'])) {
   $sql .= " order by accounts." . $_GET['order'];
 }
 
-// $result = $data->read($sql);
-
 $statement = $connect->prepare($sql);
 $statement->execute();
 $result = $statement->fetchAll();
@@ -96,7 +94,6 @@ if ($total_data > 0) {
       <td>" . $row['employer'] . "</td>
       <td>" . $row['email'] . "</td>
      ";
-
 
     if (checkPermission($permissions, 'update-account')) {
       $output .= "<td><a class = 'link-icon' href = '?account_number=" . $row['account_number'] . "'><i class='fi fi-sr-eye'></i></a></td>";
@@ -224,26 +221,4 @@ $output .= "$previous_link $page_link $next_link";
 $output .= '</ul>';
 echo $output;
 
-
-
-function getPermissions($email, $connect)
-{
-  try {
-    $permission = array();
-    $sql = "SELECT permission.permissionType 
-  FROM user INNER JOIN user_role on (user.userID = user_role.userID) 
-  INNER JOIN roles on (user_role.roleID = roles.roles) 
-  INNER JOIN role_permission on (roles.roles = role_permission.roleID) 
-  INNER JOIN permission on (role_permission.permissionID = permission.permissionID) WHERE user.email = '$email';";
-    $statement = $connect->prepare($sql);
-    $statement->execute();
-    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($result as $row) {
-      $permission[] = $row['permissionType'];
-    }
-  } catch (PDOException $e) {
-    die($e->getMessage());
-  }
-  return $permission;
-}
 ?>

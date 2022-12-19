@@ -72,28 +72,6 @@ class Data extends Database
     return $statement->fetch()[0];
   }
 
-  function Navigation($total)
-  {
-    $rowPerPage = 15;
-    $_SESSION['pages'] = $pages = $total / $rowPerPage;
-    $_SESSION['start'] = 0;
-    $index = 1;
-    for ($index; $index <= $pages; $index++) {
-      $this->strPage .= "<li>
-      <a href = './?page=$index' class='content-navigation-link'> $index </a>
-      </li>";
-    }
-
-    // $strPage .= "<a href = './?page=$index' class='content-navigation-link navigation-pre-next'> <i class='fa-solid fa-play'></i> </a>";
-
-    $currentPage = 1;
-    if (isset($_GET['page'])) {
-      $currentPage = $_GET['page'];
-      $_SESSION['start'] = ($currentPage - 1) * $rowPerPage;
-    }
-    $_SESSION['currentPage'] = $currentPage;
-  }
-
   function countTotal($table)
   {
     global $connect;

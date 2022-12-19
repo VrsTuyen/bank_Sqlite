@@ -54,16 +54,9 @@ if (
       $userID = $data->getMax('userID', "user");
 
       $sql = "INSERT INTO `user`(`userID`,`username`, `phone`, `email`, `password`, `country`) 
-        VALUES ($userID, :username, :phone, :email, :password, :country)";
+        VALUES ($userID, '$username', '$phone', '$email', '$password', '$country')";
 
       $statement = $connect->prepare($sql);
-
-      $statement->bindParam(':username', $username, PDO::PARAM_STR);
-      $statement->bindParam(':phone', $phone, PDO::PARAM_STR);
-      $statement->bindParam(':email', $email, PDO::PARAM_STR);
-      $statement->bindParam(':password', $password, PDO::PARAM_STR);
-      $statement->bindParam(':country', $country, PDO::PARAM_STR);
-
       $query1 = $statement->execute();
 
       $userRoleID = $data->getMax('userRoleID', 'user_role');
@@ -72,13 +65,11 @@ if (
 
       $statement = $connect->prepare($sql);
 
-      $statement = $connect->prepare($sql);
       $query2 = $statement->execute();
 
       if ($query1 && $query2) {
         $validate = null;
         $strURI = null;
-        // $connect->commit();
         header('location: ./../user.php?message=Done');
       } else {
         header('location: ./../user.php?message=Error try again');
