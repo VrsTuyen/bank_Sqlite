@@ -4,7 +4,7 @@ require_once('./config/Data.php');
 require_once('./function/function.php');
 $data = new Data();
 $connect = $data->connect();
-$permissions = $_SESSION['permissions'];
+$permissions = getPermissions($_SESSION['account']);
 if (!checkPermission($permissions, 'view-role')) {
   header('location:index.php');
 }

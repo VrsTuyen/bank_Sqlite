@@ -1,14 +1,15 @@
 <?php
 session_start();
 include_once './config/Data.php';
-include_once './handle/role.php';
 require './function/function.php';
 
 $data = new Data();
 $connect = $data->connect();
 
-// $is_admin = getRole($_SESSION['account']);
-$permissions = $_SESSION['permissions'];
+$permissions = getPermissions($_SESSION['account']);
+
+// // $is_admin = getRole($_SESSION['account']);
+// $permissions = $_SESSION['permissions'];
 
 if (!checkPermission($permissions, 'view-user')) {
   header('location: index.php');
@@ -121,6 +122,7 @@ if (isset($_GET['message'])) {
     try {
       $email = $_GET['user-email'];
       $sql = "SELECT user.userID, username, phone, password, country, roles.roles FROM user, user_role, roles WHERE user_role.roleID = roles.roles AND user.userID = user_role.userID AND email = '$email';";
+
       $statement = $connect->prepare($sql);
       $statement->execute();
       $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -139,7 +141,7 @@ if (isset($_GET['message'])) {
         $country = $user['country'];
       }
     } catch (PDOException $e) {
-      echo "<h1> Error:" . $e->getMessage() . "</h1>";
+      die("<h1> Error:" . $e->getMessage() . "</h1>");
     }
   }
   ?>
@@ -247,7 +249,7 @@ if (isset($_GET['message'])) {
           </p>
         </div>
         <div class="overlay-info-button-wrap">
-          <input type="submit" value="save" name='submit-form' ?>'>
+          <input type="submit" value="save" name='submit-form' ?>
           <a href="user.php" class="overlay-info-button-wrap-btn">close</a>
         </div>
       </form>

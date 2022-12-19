@@ -23,7 +23,6 @@ class Database
       $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       // $connect->exec('set names utf8');
       // echo "Connection Successfully";
-      // echo $connect;
       return $connect;
     } catch (PDOException $e) {
       echo "<h1>Connection failed " . $e->getMessage() . "</h1>";

@@ -36,7 +36,6 @@ if (
   || empty($country)
 ) {
   $validate = "Try again";
-  echo "keep running";
 } else {
   if ($password != $repeatPassword) {
     $validate = "Try again";
@@ -58,20 +57,21 @@ if (
         VALUES ($userID, :username, :phone, :email, :password, :country)";
 
       $statement = $connect->prepare($sql);
+
       $statement->bindParam(':username', $username, PDO::PARAM_STR);
       $statement->bindParam(':phone', $phone, PDO::PARAM_STR);
       $statement->bindParam(':email', $email, PDO::PARAM_STR);
       $statement->bindParam(':password', $password, PDO::PARAM_STR);
-      // $statement->bindParam(':roles', $role, PDO::PARAM_INT);
       $statement->bindParam(':country', $country, PDO::PARAM_STR);
 
       $query1 = $statement->execute();
 
-      $statement = $connect->prepare($sql);
-
       $userRoleID = $data->getMax('userRoleID', 'user_role');
 
       $sql = "INSERT INTO `user_role` (`userRoleID`, `userID`, `roleID`) VALUES ($userRoleID, '$userID', '$role');";
+
+      $statement = $connect->prepare($sql);
+
       $statement = $connect->prepare($sql);
       $query2 = $statement->execute();
 

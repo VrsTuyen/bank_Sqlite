@@ -50,7 +50,7 @@ try {
   $result = $statement->execute();
   header('location: ./../index.php');
 } catch (PDOException $e) {
-  echo "<h1> Error:" . $e->getMessage() . "</h1>";
+  die("<h1> Error:" . $e->getMessage() . "</h1>");
 
 }
 

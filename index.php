@@ -7,13 +7,9 @@ include_once('./function/function.php');
 $data = new Data();
 $connect = $data->connect();
 
-
 if (empty($_SESSION['account'])) {
   header('location: login.php');
 }
-
-
-
 
 $email = $_SESSION['account'];
 // $is_admin = getRole($email);
@@ -142,11 +138,11 @@ if (isset($_GET['page'])) {
     } else {
       echo "
             <div class='overlay-info-content-wrap-radio'>
-            <input type='radio' name='info-account-gender' id = 'info-account-gender-m' value='M' >
+            <input type='radio' name='info-gender' id = 'info-account-gender-m' value='M' >
             <label for='info-account-gender-m'>Male</label>
           </div>
           <div class='overlay-info-content-wrap-radio'>
-            <input type='radio' name='info-account-gender' id = 'info-account-gender-f' value='F' checked>
+            <input type='radio' name='info-gender' id = 'info-account-gender-f' value='F' checked>
             <label for='info-account-gender-f'>Female</label>
           </div>
             ";
