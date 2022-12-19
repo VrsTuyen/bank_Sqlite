@@ -19,9 +19,9 @@ roles ON role_permission.roleID = roles.roles where roleID = $role";
 
 $statement = $connect->prepare($sql);
 $statement->execute();
-$permissions = $statement->fetchAll();
+$per = $statement->fetchAll();
 $permission = [];
-foreach ($permissions as $pms) {
+foreach ($per as $pms) {
   $permission[] = $pms['permissionID'];
 }
 
@@ -80,8 +80,13 @@ foreach ($permissions as $pms) {
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="2" name="data[]" id="insert-account" <?php if ( in_array( 2,
-                      $permission ) ) echo "checked=true" ?>>
+                    <input type="checkbox" value="2" name="data[]" id="insert-account" <?php if (
+                      in_array(
+                        2,
+                        $permission
+                      )
+                    )
+                      echo "checked=true" ?>>
                     <label for="insert-account">insert Accounts</label>
                   </div>
 
@@ -92,8 +97,13 @@ foreach ($permissions as $pms) {
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="4" name="data[]" id="delete-account" <?php if ( in_array( 4,
-                      $permission ) ) echo "checked=true" ?>>
+                    <input type="checkbox" value="4" name="data[]" id="delete-account" <?php if (
+                      in_array(
+                        4,
+                        $permission
+                      )
+                    )
+                      echo "checked=true" ?>>
                     <label for="delete-account">delete Accounts</label>
                   </div>
 
@@ -148,8 +158,13 @@ foreach ($permissions as $pms) {
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="10" name="data[]" id="insert-role" <?php if ( in_array( 10,
-                      $permission ) ) echo "checked=true" ?>>
+                    <input type="checkbox" value="10" name="data[]" id="insert-role" <?php if (
+                      in_array(
+                        10,
+                        $permission
+                      )
+                    )
+                      echo "checked=true" ?>>
                     <label for="insert-role">insert Roles</label>
                   </div>
 
@@ -160,8 +175,13 @@ foreach ($permissions as $pms) {
                   </div>
 
                   <div class="col-3-lg col-3-xl col-3-md col-3-sm col-3-xs form-group-checkbox-element">
-                    <input type="checkbox" value="12" name="data[]" id="delete-role" <?php if ( in_array( 12,
-                      $permission ) ) echo "checked=true" ?>>
+                    <input type="checkbox" value="12" name="data[]" id="delete-role" <?php if (
+                      in_array(
+                        12,
+                        $permission
+                      )
+                    )
+                      echo "checked=true" ?>>
                     <label for="delete-role">delete Roles</label>
                   </div>
 
