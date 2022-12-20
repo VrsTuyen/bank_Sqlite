@@ -227,13 +227,13 @@ if (isset($_GET['page'])) {
       <div class="overlay-info-content">
         <div class="overlay-info-content-left">
 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <div class="overlay-info-content-wrap">
               <h4 class="h4-heading">account number</h4>
               <input type='text' name='info-account_number' value='<?= isset($account_number) ?>' disabled>
             </div>
             <p class="validation-message"></p>
-          </div>
+          </div> -->
 
           <div class="form-group">
             <div class="overlay-info-content-wrap">
@@ -262,6 +262,14 @@ if (isset($_GET['page'])) {
             <p class="validation-message"></p>
           </div>
 
+          <div class="form-group">
+            <div class="overlay-info-content-wrap">
+              <h4 class="h4-heading">address </h4>
+              <input type="text" name='info-address' class="input-text input-address" value="<?= isset($address) ?>">
+            </div>
+            <p class="validation-message"></p>
+          </div>
+
           <div class="overlay-info-content-wrap overlay-info-content-wrap-gender">
             <h4 class="h4-heading">gender </h4>
             <div class='overlay-info-content-wrap-radio'>
@@ -273,16 +281,11 @@ if (isset($_GET['page'])) {
               <label for='info-gender-f'>Female</label>
             </div>
           </div>
+
         </div>
         <div class="overlay-info-content-right">
 
-          <div class="form-group">
-            <div class="overlay-info-content-wrap">
-              <h4 class="h4-heading">address </h4>
-              <input type="text" name='info-address' class="input-text input-address" value="<?= isset($address) ?>">
-            </div>
-            <p class="validation-message"></p>
-          </div>
+       
 
           <div class="form-group">
             <div class="overlay-info-content-wrap">

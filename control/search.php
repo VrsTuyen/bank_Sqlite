@@ -52,7 +52,7 @@ if (isset($_GET['data']) && $_GET['data'] != '' && $_GET['data'] != 'undefined')
 }
 
 if (isset($_GET['order']) && !empty($_GET['order'])) {
-  $sql .= " order by accounts." . $_GET['order'];
+  $sql .= " order by accounts." . $_GET['order'] ." desc ";
 }
 
 $statement = $connect->prepare($sql);
